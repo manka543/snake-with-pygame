@@ -1,12 +1,13 @@
 import pygame
+from random import randint
 
 pygame.init()
 
 # Game variables
-gameSpeed = 50 # This int change game speed
+gameSpeed = 1000 # This int change game speed
 gameClock = gameSpeed
-snakeX = [7,8,9,10] # List with snake elements on x axis
-snakeY = [12,12,12,12] # List with snake elements on y axis
+snakeX = [14,13,12] # List with snake elements on x axis
+snakeY = [15,15,15] # List with snake elements on y axis
 aplle = (2*25,5*25) # Tuple with apple cordinates
 nextMove = "r"
 nnextMove = "r"
@@ -27,18 +28,48 @@ def graph(snakeXEl,snakeYEl,appleCor):
     pygame.draw.rect(screen,(255,0,0),(appleCor[0],appleCor[1],25,25))
 
 def eatingapple():
-    print("jabułko zjedzone")
+    apple = (randint(0,35), randint(0,23))
 
 
-def gameLogic(snakeXEl,snakeYEl,appleCor,nextMovel,nextMoveCl,nnextMovel,nnextMoveCl):
-    if nextMovel == 'r' or nextMovel == 'l':
-        if snakeXEl[0]-1 < 0 or snakeXEl[0]+1 >35:
+def gameLogic(appleCor,nextMovel,nextMoveCl,nnextMovel,nnextMoveCl):
+    global snakeX, snakeY
+    if nextMovel == 'r':
+        if snakeX[0]+1 > 35:
             return end()
-    elif nextMovel == 'u' or nextMove == 'd':
-        if snakeYEl[0]-1 < 0 or snakeYEl[0]+1 >23:
+    elif nextMovel == 'l':
+        if snakeX[0]-1 < 0:
             return end()
-    if snakeXEl[0] == appleCor[0] and snakeYEl[0] == appleCor[1]:
+    elif nextMovel == 'u':
+        if snakeY[0]+1 >23:
+            return end()
+    elif nextMove == 'd':
+        if snakeY[0]-1 < 0:
+            return end()
+    snakeX.pop(len(snakeX)-2)
+    snakeY.pop(len(snakeY)-2)
+    # Move
+    if nextMovel == 'r':
+        print('ruch w prawo')
+        nextCords = (snakeX[0]+1,snakeY[0])
+    elif nextMovel == 'l':
+        print('ruch w lewo')
+        nextCords = (snakeX[0]-1,snakeY[0])
+    elif nextMovel == 'u':
+        print('ruch w góre')
+        nextCords = (snakeX[0],snakeY[0]-1)
+    elif nextMovel == 'd':
+        print('ruch w dól')
+        nextCords = (snakeX[0]+1,snakeY[0]+1)
+    for i in range(len(snakeX)):
+        if i > 2:    
+            snakeX[len(snakeX)-i-1] = snakeX[len(snakeX)-i-2]
+            snakeY[len(snakeY)-i-1] = snakeY[len(snakeY)-i-2]
+    snakeX[0] = nextCords[0]
+    snakeY[0] = nextCords[1]
+    
+    if snakeX[0] == appleCor[0] and snakeY[0] == appleCor[1]:
         eatingapple()
+
 
 running = True
 while running:
@@ -76,7 +107,7 @@ while running:
                     nnextMoveC = True
     gameClock -= 1
     if gameClock == 0:
-        gameLogic(snakeX,snakeY,aplle,nextMove,nextMoveC,nnextMove,nnextMoveC)
+        gameLogic(aplle,nextMove,nextMoveC,nnextMove,nnextMoveC)
         gameClock = gameSpeed
     graph(snakeX,snakeY,aplle)
     pygame.display.update()
