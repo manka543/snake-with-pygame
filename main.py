@@ -4,24 +4,41 @@ pygame.init()
 
 # Game variables
 gameSpeed = 50 # This int change game speed
-snakeX = [1,2,3,4] # List with snake elements on x axis
-snakeY = [1,2,3,4] # List with snake elements on y axis
+gameClock = gameSpeed
+snakeX = [7,8,9,10] # List with snake elements on x axis
+snakeY = [12,12,12,12] # List with snake elements on y axis
 aplle = (2*25,5*25) # Tuple with apple cordinates
 nextMove = "r"
 nnextMove = "r"
 nextMoveC = False
 nnextMoveC = False
+font = pygame.font.Font('freesansbold.ttf', 72)
+endstr = font.render("Koniec, Przegrałeś!!!", True, (255,255,255))
+
 
 screen = pygame.display.set_mode((900,600)) # Board 36x24[squares]; Square 25x25[px]
+
+def end():
+    screen.blit(endstr, (400, 250))
 
 def graph(snakeXEl,snakeYEl,appleCor):
     for x in range(len(snakeXEl)):
         pygame.draw.rect(screen,(0,255,0),(snakeXEl[x]*25,snakeYEl[x]*25,25,25))
     pygame.draw.rect(screen,(255,0,0),(appleCor[0],appleCor[1],25,25))
 
+def eatingapple():
+    print("jabułko zjedzone")
+
 
 def gameLogic(snakeXEl,snakeYEl,appleCor,nextMovel,nextMoveCl,nnextMovel,nnextMoveCl):
-    print('zarąbista logika')
+    if nextMovel == 'r' or nextMovel == 'l':
+        if snakeXEl[0]-1 < 0 or snakeXEl[0]+1 >35:
+            return end()
+    elif nextMovel == 'u' or nextMove == 'd':
+        if snakeYEl[0]-1 < 0 or snakeYEl[0]+1 >23:
+            return end()
+    if snakeXEl[0] == appleCor[0] and snakeYEl[0] == appleCor[1]:
+        eatingapple()
 
 running = True
 while running:
@@ -57,10 +74,9 @@ while running:
                 elif not nnextMoveC and not nextMove == 'r' and not nextMove == 'l':
                     nnextMove = 'l'
                     nnextMoveC = True
-    gameSpeed -= 1
-    if gameSpeed == 0:
+    gameClock -= 1
+    if gameClock == 0:
         gameLogic(snakeX,snakeY,aplle,nextMove,nextMoveC,nnextMove,nnextMoveC)
-
+        gameClock = gameSpeed
     graph(snakeX,snakeY,aplle)
     pygame.display.update()
-    
