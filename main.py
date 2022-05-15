@@ -15,7 +15,8 @@ screen = pygame.display.set_mode((900,600)) # Board 36x24[squares]; Square 25x25
 
 def end():
     screen.blit(endstr, (400, 250))
-snake = snake.Snake()
+
+snake = snake.Snake(screen)
 snake.printbody()
 
 running = True
@@ -23,5 +24,5 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        
+    snake.drawBody()
     pygame.display.update()
