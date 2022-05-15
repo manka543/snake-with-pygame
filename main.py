@@ -1,5 +1,6 @@
 import pygame
 from random import randint
+import snake
 
 pygame.init()
 
@@ -14,7 +15,8 @@ screen = pygame.display.set_mode((900,600)) # Board 36x24[squares]; Square 25x25
 
 def end():
     screen.blit(endstr, (400, 250))
-
+snake = snake.Snake()
+snake.printbody()
 
 running = True
 while running:
