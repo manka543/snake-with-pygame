@@ -17,12 +17,20 @@ def end():
     screen.blit(endstr, (400, 250))
 
 snake = snake.Snake(screen)
-snake.printbody()
+
 
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    snake.drawBody()
-    pygame.display.update()
+        elif event.type == pygame.KEYDOWN:
+            snake.setdirection(event.key)
+    if snake.ismove():
+        print("move")
+        print(snake.body)
+        screen.fill((0,0,0))
+        snake.move()
+        snake.drawBody()
+
+        pygame.display.update()

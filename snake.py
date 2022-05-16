@@ -1,3 +1,4 @@
+from nis import match
 import pygame
 from random import randint
 
@@ -39,8 +40,45 @@ class Snake:
             return True
 
     def move(self):
-        for i in self.body:
-            pass
+        self.movepredictf()
+        if self.ismovepossible():
+            for i in range(self.body-1):
+                self.body[-i]= self.body[-i-1]
+
+            self.body[0] = self.movepredict 
+
+    def ismovepossible(self):
+        if not self.movepredict in self.body:   
+            if self.direction == 'r' and self.movepredict[0]+1 > 36:
+                return True
+            elif self.direction == 'l' and self.movepredict[0]-1 < 0:
+                return True
+            elif self.direction == 'u' and self.movepredict[1]-1 < 0:
+                return True
+            elif self.direction == 'd' and self.movepredict[1]+1 > 24:
+                return True
+            else:
+                return False
+
+    def movepredictf(self):
+        if self.direction == 'r':
+            self.movepredict = (self.body[0][0]+1,self.body[0][1])
+        elif self.direction == 'l':
+            self.movepredict = (self.body[0][0]-1,self.body[0][1])
+        elif self.direction == 'u':
+            self.movepredict = (self.body[0][0],self.body[0][1]-1)
+        elif self.direction == 'd':
+            self.movepredict = (self.body[0][0],self.body[0][1]+1)
 
     def eatapple(self):
         pass
+
+    def setdirection(self,key):
+        if key == pygame.K_UP and not self.direction == 'd':
+            self.direction = 'u'
+        elif key == pygame.K_DOWN and not self.direction == 'u':
+            self.direction = 'd'
+        elif key == pygame.K_LEFT and not self.direction == 'r':
+            self.direction = 'l'
+        elif key == pygame.K_RIGHT and not self.direction == 'l':
+            self.direction = 'r'
