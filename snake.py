@@ -1,4 +1,5 @@
 from nis import match
+from operator import truediv
 import pygame
 from random import randint
 
@@ -7,7 +8,7 @@ class Snake:
     # Variables
     body = []
     # Constructor
-    def __init__(self,surface, head = (18,12), lenght = 5, direction = "r", speed = 100):
+    def __init__(self,surface, head = (18,12), lenght = 5, direction = "r",directionn = "r",directionc=False, directuoncc = False, speed = 100000):
 
         if direction == "r":
             for i in range(lenght):
@@ -25,6 +26,7 @@ class Snake:
         self.surface = surface
         self.time = self.speed
         self.direction = direction
+        self.moves = []
 
     def printbody(self):
         print(type(self.body[1]))
@@ -40,12 +42,13 @@ class Snake:
             return True
 
     def move(self):
+        if len(self.moves)>0:
+            self.direction = self.moves.pop(0)
         self.movepredictf()
-        if self.ismovepossible():
-            for i in range(self.body-1):
-                self.body[-i]= self.body[-i-1]
-
-            self.body[0] = self.movepredict 
+        #if self.ismovepossible():
+        self.body[0] = self.movepredict 
+        for i in range(len(self.body)-1):
+            self.body[len(self.body)-1-i]= self.body[len(self.body)-i-2]
 
     def ismovepossible(self):
         if not self.movepredict in self.body:   
@@ -59,7 +62,8 @@ class Snake:
                 return True
             else:
                 return False
-
+        else:
+            return False
     def movepredictf(self):
         if self.direction == 'r':
             self.movepredict = (self.body[0][0]+1,self.body[0][1])
@@ -74,11 +78,24 @@ class Snake:
         pass
 
     def setdirection(self,key):
-        if key == pygame.K_UP and not self.direction == 'd':
-            self.direction = 'u'
-        elif key == pygame.K_DOWN and not self.direction == 'u':
-            self.direction = 'd'
-        elif key == pygame.K_LEFT and not self.direction == 'r':
-            self.direction = 'l'
-        elif key == pygame.K_RIGHT and not self.direction == 'l':
-            self.direction = 'r'
+        if key == pygame.K_UP and len(self.moves) == 0 and not self.direction == 'd':
+            self.moves += 'u'
+        elif key == pygame.K_UP and len(self.moves) > 0:
+            if self.moves[len(self.moves) -1] == 'd':
+                self.moves += 'u'
+        elif key == pygame.K_DOWN and len(self.moves) == 0 and not self.direction == 'u':
+            self.moves += 'd'
+        elif key == pygame.K_DOWN and len(self.moves) > 0:
+            if self.moves[len(self.moves) -1] == 'u':
+                self.moves += 'd'
+        elif key == pygame.K_RIGHT and len(self.moves) == 0 and not self.direction == 'l':
+            self.moves += 'r'
+        elif key == pygame.K_RIGHT and len(self.moves) > 0:
+            if self.moves[len(self.moves) -1] == 'l':
+                self.moves += 'r'
+        elif key == pygame.K_LEFT and len(self.moves) == 0 and not self.direction == 'r':
+            self.moves += 'l'
+        elif key == pygame.K_LEFT and len(self.moves) > 0:
+            if self.moves[len(self.moves) -1] == 'r':
+                self.moves += 'l'
+    
