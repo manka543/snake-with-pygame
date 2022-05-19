@@ -12,7 +12,7 @@ class Snake:
     body = [] # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
     # Constructor
     def __init__(self,surface, head = (18,12), lenght = 5, direction = "r", speed = 100000):
-        
+        print("snake init")
         # Używając zmiennej head i lenght generuje ciało węża w lini prostej zgodnej z kierunkiem podanym w direction
 
         if direction == "r": 
@@ -39,6 +39,7 @@ class Snake:
     def drawBody(self): # Ta rysuje węża w okienku
         for i in self.body:
             pygame.draw.rect(self.surface,(0,255,0),(i[0]*25,i[1]*25,25,25))
+        print('drawing')
 
     def ismove(self): # Taki zegarek który wywołuje ruch co zmienną speed przy pomocy zmiennej time
         self.time -= 1
