@@ -11,7 +11,7 @@ class Snake:
     # Variables
     body = [] # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
     # Constructor
-    def __init__(self,surface, head = (18,12), lenght = 5, direction = "r", speed = 100000):
+    def __init__(self,surface, head = (18,12), lenght = 5, direction = "r", speed = 1000):
         print("snake init")
         # Używając zmiennej head i lenght generuje ciało węża w lini prostej zgodnej z kierunkiem podanym w direction
 
@@ -32,6 +32,7 @@ class Snake:
         self.time = self.speed # Czas ruchu
         self.direction = direction # Kierunek poruszania się węża Legenda: 'l' - lewo, 'r' - prawo, 'u' - góra, 'd' - dół
         self.moves = []  # Lista z następnymi ruchami
+        self.movesnumbers = 0
 
     def printbody(self): # Pomocnicza funkcja w debugowaniu ktróra wypisuje części ciała węża
         print(type(self.body[1]))
@@ -45,7 +46,10 @@ class Snake:
         self.time -= 1
         if self.time == 0:
             self.time = self.speed
+            self.movesnumbers += 1
             return True
+        else:
+            return False
 
     def move(self): # Ta funkcja wykonuje ruch
         if len(self.moves)>0:

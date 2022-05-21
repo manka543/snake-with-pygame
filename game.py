@@ -22,14 +22,13 @@ class game:
         print("running")
         while self.running:
             for event in pygame.event.get():
-                print("running2")
                 if event.type == pygame.QUIT:
                     self.running = False
                 elif event.type == pygame.KEYDOWN:
                     self.snake.setdirection(event.key)
             if self.snake.ismove():
                 print("move")
-                print(snake.body)
+                #print(snake.body)
                 self.screen.fill((0,0,0))
                 self.snake.move()
                 self.snake.drawBody()
