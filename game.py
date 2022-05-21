@@ -3,7 +3,7 @@ import snake
 import pygame
 
 
-class game:
+class Game:
 
     def __init__(self):
         pygame.init()
@@ -13,6 +13,7 @@ class game:
 
         self.screen = pygame.display.set_mode((900,600)) # Board 36x24[squares]; Square 25x25[px]
         self.snake = snake.Snake(self.screen)
+        self.apple = apple.Apple(self.screen,self.snake.body)
     
     def end(self):
         self.screen.blit(self.endstr, (400, 250))
@@ -33,5 +34,5 @@ class game:
                 self.snake.move()
                 self.snake.drawBody()
                 print('move')
-            pygame.display.update()
+                pygame.display.update()
             

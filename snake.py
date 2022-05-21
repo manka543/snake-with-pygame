@@ -11,7 +11,7 @@ class Snake:
     # Variables
     body = [] # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
     # Constructor
-    def __init__(self,surface, head = (18,12), lenght = 5, direction = "r", speed = 1000):
+    def __init__(self,surface, head = (18,12), lenght = 5, direction = "r", speed = 200000):
         print("snake init")
         # Używając zmiennej head i lenght generuje ciało węża w lini prostej zgodnej z kierunkiem podanym w direction
 
@@ -109,3 +109,6 @@ class Snake:
         elif key == pygame.K_LEFT and len(self.moves) > 0:
             if self.moves[len(self.moves) -1] == 'r':
                 self.moves += 'l'
+
+    def addbody(self):
+        pass

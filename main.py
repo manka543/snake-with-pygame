@@ -1,5 +1,5 @@
 import game
 
-gra = game.game()
+gra = game.Game()
 
 gra.gameloop()
