@@ -1,20 +1,19 @@
+from tkinter.tix import Tree
 import pygame
 from random import randint
 
-# TODO: Wszystko związane z jabłkiem
-# TODO: Poprawić responsywność poruszania
-# TODO: Kolizje węża ze ścianami i samym sobą; Część dodana ale powodowała błędy i jest aktualnie wyłączona
+
 
 # Klasa snake jest utwożona z oparciem o bibliotekę pygame i random
 # Pozwala ona na stwożenie i obsługę węża z wykożystaniem kilku funkcji
 class Snake:
     # Variables
-    body = [] # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
+     # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
     # Constructor
-    def __init__(self,surface, head = (18,12), lenght = 5, direction = "r", speed = 200000):
+    def __init__(self,surface, head = (18,12), lenght = 8, direction = "r", speed = 200000):
         print("snake init")
         # Używając zmiennej head i lenght generuje ciało węża w lini prostej zgodnej z kierunkiem podanym w direction
-
+        self.body = []
         if direction == "r": 
             for i in range(lenght):
                 self.body.append((head[0]-i,head[1]))
@@ -33,6 +32,7 @@ class Snake:
         self.direction = direction # Kierunek poruszania się węża Legenda: 'l' - lewo, 'r' - prawo, 'u' - góra, 'd' - dół
         self.moves = []  # Lista z następnymi ruchami
         self.movesnumbers = 0
+        self.alive = True
 
     def printbody(self): # Pomocnicza funkcja w debugowaniu ktróra wypisuje części ciała węża
         print(type(self.body[1]))
@@ -51,29 +51,31 @@ class Snake:
         else:
             return False
 
-    def move(self): # Ta funkcja wykonuje ruch
+    def move(self,apple): # Ta funkcja wykonuje ruch
         if len(self.moves)>0:
             self.direction = self.moves.pop(0)
         self.movepredictf()
-        #if self.ismovepossible():
-        self.body[0] = self.movepredict 
-        for i in range(len(self.body)-1):
-            self.body[len(self.body)-1-i]= self.body[len(self.body)-i-2]
+        if self.ismovepossible() and self.alive:
+            if not apple.cords in self.body:    
+                self.body[0] = self.movepredict 
+                for i in range(len(self.body)-1):
+                    self.body[len(self.body)-1-i]= self.body[len(self.body)-i-2]
+            else:
+                self.body.append(self.body[-1])
+                self.body[0] = self.movepredict 
+                for i in range(len(self.body)-1):
+                    self.body[len(self.body)-1-i]= self.body[len(self.body)-i-2]
+                apple.__init__(self.surface, self.body)
+        else:
+            self.alive = False
+            return "end"
+
 
     def ismovepossible(self): # Ta funkcja sprawdza czy następny ruch jest legalny
         if not self.movepredict in self.body:   
-            if self.direction == 'r' and self.movepredict[0]+1 > 36:
+            if -1 < self.movepredict[0] < 36 and -1 < self.movepredict[1] < 24:
                 return True
-            elif self.direction == 'l' and self.movepredict[0]-1 < 0:
-                return True
-            elif self.direction == 'u' and self.movepredict[1]-1 < 0:
-                return True
-            elif self.direction == 'd' and self.movepredict[1]+1 > 24:
-                return True
-            else:
-                return False
-        else:
-            return False
+        return False
 
     def movepredictf(self): # Tu sie dzieje przewidywanie ruchu i ustawianie go
         if self.direction == 'r':
@@ -85,7 +87,7 @@ class Snake:
         elif self.direction == 'd':
             self.movepredict = (self.body[0][0],self.body[0][1]+1)
 
-    def eatapple(self): # Ta funkcja obsługuje jedzenie jabłek tako
+    def eatapple(self,apple): # Ta funkcja obsługuje jedzenie jabłek tako
         pass
 
     def setdirection(self,key): # To jest funkcja która robi tablice następnych ruchów
@@ -109,6 +111,3 @@ class Snake:
         elif key == pygame.K_LEFT and len(self.moves) > 0:
             if self.moves[len(self.moves) -1] == 'r':
                 self.moves += 'l'
-
-    def addbody(self):
-        pass

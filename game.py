@@ -7,7 +7,7 @@ class Game:
 
     def __init__(self):
         pygame.init()
-        self.font = pygame.font.Font('freesansbold.ttf', 72) #TODO: Przenieś do klasy snake i to niżej też
+        self.font = pygame.font.Font('freesansbold.ttf', 72) 
         self.endstr = self.font.render("Koniec, Przegrałeś!!!", True, (255,255,255))
         print('init')
 
@@ -16,7 +16,7 @@ class Game:
         self.apple = apple.Apple(self.screen,self.snake.body)
     
     def end(self):
-        self.screen.blit(self.endstr, (400, 250))
+        self.screen.blit(self.endstr, (100, 250))
 
     def gameloop(self):
         self.running = True
@@ -26,13 +26,19 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.running = False
                 elif event.type == pygame.KEYDOWN:
-                    self.snake.setdirection(event.key)
+                    if self.snake.alive:
+                        self.snake.setdirection(event.key)
+                    else:
+                        self.snake.__init__(self.screen)
             if self.snake.ismove():
                 print("move")
-                #print(snake.body)
                 self.screen.fill((0,0,0))
-                self.snake.move()
-                self.snake.drawBody()
+                if self.snake.move(self.apple) == "end":
+                    self.end()
+                else:
+                    self.apple.draw()
+                    self.snake.drawBody()
                 print('move')
+                len(self.snake.body)
                 pygame.display.update()
             

@@ -1,8 +1,6 @@
 import pygame
 from random import randint
 
-from random import randint
-
 class Apple:
     def __init__(self, surface, snakebody):
         while True:
