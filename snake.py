@@ -10,7 +10,7 @@ class Snake:
     # Variables
      # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
     # Constructor
-    def __init__(self,surface, head = (18,12), lenght = 8, direction = "r", speed = 200000):
+    def __init__(self,surface, head = (18,12), lenght = 8, direction = "u", speed = 200000):
         print("snake init")
         # Używając zmiennej head i lenght generuje ciało węża w lini prostej zgodnej z kierunkiem podanym w direction
         self.body = []
@@ -94,20 +94,21 @@ class Snake:
         if key == pygame.K_UP and len(self.moves) == 0 and not self.direction == 'd':
             self.moves += 'u'
         elif key == pygame.K_UP and len(self.moves) > 0:
-            if self.moves[len(self.moves) -1] == 'd':
+            if not self.moves[len(self.moves) -1] == 'd':
                 self.moves += 'u'
         elif key == pygame.K_DOWN and len(self.moves) == 0 and not self.direction == 'u':
             self.moves += 'd'
         elif key == pygame.K_DOWN and len(self.moves) > 0:
-            if self.moves[len(self.moves) -1] == 'u':
+            if not self.moves[len(self.moves) -1] == 'u':
                 self.moves += 'd'
         elif key == pygame.K_RIGHT and len(self.moves) == 0 and not self.direction == 'l':
             self.moves += 'r'
         elif key == pygame.K_RIGHT and len(self.moves) > 0:
-            if self.moves[len(self.moves) -1] == 'l':
+            if not self.moves[len(self.moves) -1] == 'l':
                 self.moves += 'r'
         elif key == pygame.K_LEFT and len(self.moves) == 0 and not self.direction == 'r':
             self.moves += 'l'
         elif key == pygame.K_LEFT and len(self.moves) > 0:
-            if self.moves[len(self.moves) -1] == 'r':
+            if not self.moves[len(self.moves) -1] == 'r':
                 self.moves += 'l'
+        print(self.moves)
