@@ -1,4 +1,3 @@
-from tkinter.tix import Tree
 import pygame
 from random import randint
 
@@ -10,7 +9,7 @@ class Snake:
     # Variables
      # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
     # Constructor
-    def __init__(self,surface, head = (18,12), lenght = 8, direction = "u", speed = 200000):
+    def __init__(self,surface, head = (18,12), lenght = 3, direction = "r", speed = 20000):
         print("snake init")
         # Używając zmiennej head i lenght generuje ciało węża w lini prostej zgodnej z kierunkiem podanym w direction
         self.body = []
@@ -33,14 +32,22 @@ class Snake:
         self.moves = []  # Lista z następnymi ruchami
         self.movesnumbers = 0
         self.alive = True
+        self.points = 0
+        self.font = pygame.font.Font('freesansbold.ttf',32)
+        self.pointrender()
+        
 
     def printbody(self): # Pomocnicza funkcja w debugowaniu ktróra wypisuje części ciała węża
         print(type(self.body[1]))
+
+    def pointrender(self):
+        self.pointsrend = self.font.render(str(self.points),True,(255,255,255))
 
     def drawBody(self): # Ta rysuje węża w okienku
         for i in self.body:
             pygame.draw.rect(self.surface,(0,255,0),(i[0]*25,i[1]*25,25,25))
         print('drawing')
+        self.surface.blit(self.pointsrend,(750,50))
 
     def ismove(self): # Taki zegarek który wywołuje ruch co zmienną speed przy pomocy zmiennej time
         self.time -= 1
@@ -66,6 +73,8 @@ class Snake:
                 for i in range(len(self.body)-1):
                     self.body[len(self.body)-1-i]= self.body[len(self.body)-i-2]
                 apple.__init__(self.surface, self.body)
+                self.points += 1
+                self.pointrender()
         else:
             self.alive = False
             return "end"
