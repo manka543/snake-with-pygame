@@ -7,23 +7,20 @@ from random import randint
 # Pozwala ona na stwożenie i obsługę węża z wykożystaniem kilku funkcji
 class Snake:
     # Variables
-     # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
+    # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
     # Constructor
     def __init__(self,surface, head = (18,12), lenght = 3, direction = "r", speed = 20000):
         print("snake init")
         # Używając zmiennej head i lenght generuje ciało węża w lini prostej zgodnej z kierunkiem podanym w direction
         self.body = []
-        if direction == "r": 
-            for i in range(lenght):
+        for i in range(lenght):
+            if direction == "r":     
                 self.body.append((head[0]-i,head[1]))
-        elif direction == "l":
-            for i in range(lenght):
+            elif direction == "l":
                 self.body.append((head[0]+i,head[1]))
-        elif direction == "u":
-            for i in range(lenght):
+            elif direction == "u":
                 self.body.append((head[0],head[1]-i))
-        elif direction == "d":
-            for i in range(lenght):
+            elif direction == "d":
                 self.body.append((head[0],head[1]+i))
         self.speed = speed # Szybkość kaltki
         self.surface = surface # Okno w którym działa wąż
