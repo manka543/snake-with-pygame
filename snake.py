@@ -9,12 +9,11 @@ class Snake:
     # Variables
     # Twoży listę żeby można było do niej dodać dane w formanie "tuple"; Bez tego do body dodawały się zmienne nie opakowane w tuple co nie jest zgodne z założeniem zmiennej
     # Constructor
-    def __init__(self,surface, head = (18,12), lenght = 3, direction = "r", speed = 20000):
-        print("snake init")
+    def __init__(self,surface, head = (18,12), snakelenght = 3, direction = "u", speed = 100000):
         # Używając zmiennej head i lenght generuje ciało węża w lini prostej zgodnej z kierunkiem podanym w direction
         self.body = []
-        for i in range(lenght):
-            if direction == "r":     
+        for i in range(snakelenght):
+            if direction == "r":
                 self.body.append((head[0]-i,head[1]))
             elif direction == "l":
                 self.body.append((head[0]+i,head[1]))
@@ -27,17 +26,17 @@ class Snake:
         self.time = self.speed # Czas ruchu
         self.direction = direction # Kierunek poruszania się węża Legenda: 'l' - lewo, 'r' - prawo, 'u' - góra, 'd' - dół
         self.moves = []  # Lista z następnymi ruchami
-        self.movesnumbers = 0
-        self.alive = True
-        self.points = 0
-        self.font = pygame.font.Font('freesansbold.ttf',32)
-        self.pointrender()
+        self.movesnumbers = 0  # zmienna pomocnicza
+        self.alive = True   # Czy wąż żyje
+        self.points = 0     # Punkty
+        self.font = pygame.font.Font('freesansbold.ttf',32) # Czcionka
+        self.pointrender()  # Renderuje liczbe z punktami
         
 
     def printbody(self): # Pomocnicza funkcja w debugowaniu ktróra wypisuje części ciała węża
-        print(type(self.body[1]))
+        print(self.body)
 
-    def pointrender(self):
+    def pointrender(self):  # Tu sie renderuje liczba z punktami; Robi to tylko przy zmianie zmiennej self.points
         self.pointsrend = self.font.render(str(self.points),True,(255,255,255))
 
     def drawBody(self): # Ta rysuje węża w okienku
